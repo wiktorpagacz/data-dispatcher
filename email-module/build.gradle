@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "$SPRING_BOOT_VERSION" apply false
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group 'com.pagacz'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven"
+    }
+}
+
+dependencies {
+    implementation project(path: ':database-module', configuration: 'default')
+    implementation 'commons-io:commons-io:2.16.1'
+
+    implementation 'org.springframework.boot:spring-boot'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.eclipse.angus:angus-mail:2.0.1'
+    implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-parameters")
+}

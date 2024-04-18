@@ -1,0 +1,82 @@
+buildscript {
+    ext {
+        avroToolsVersion = '1.9.1'
+        avroTools_log4jVersion = '2.5'
+    }
+
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+
+    configurations.create('avrotools')
+    dependencies {
+        avrotools "org.apache.avro:avro-tools:$avroToolsVersion"
+        avrotools "org.apache.logging.log4j:log4j-1.2-api:$avroTools_log4jVersion"
+    }
+}
+
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "$SPRING_BOOT_VERSION"
+}
+
+group 'com.pagacz'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation "org.apache.avro:avro:1.11.0"
+    implementation 'org.springframework.kafka:spring-kafka:3.1.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+void generateAvroFile(avscFile) {
+    javaexec {
+        classpath = buildscript.configurations.avrotools
+        main = 'org.apache.avro.tool.Main'
+        args = [
+                'compile',
+                '-encoding', 'utf8',
+                '-bigDecimal'
+        ]
+        args += [
+                'schema',
+                new String("src/main/avro/${avscFile}.avsc"),
+                'src/main/java'
+        ]
+    }
+}
+
+
+task generateAvro {
+    doLast {
+        generateAvroFile('OfferData')
+    }
+}

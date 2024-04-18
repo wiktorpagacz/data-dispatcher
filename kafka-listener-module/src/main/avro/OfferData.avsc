@@ -1,0 +1,39 @@
+{
+  "type": "record",
+  "name": "FlatData",
+  "namespace": "com.pagacz.kafka.listener.model.generated",
+  "fields": [
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "source",
+      "type": "string"
+    },
+    {
+      "name": "link",
+      "type": "string"
+    },
+    {
+      "name": "comment",
+      "type": "string"
+    },
+    {
+      "name": "price",
+      "type": "string"
+    },
+    {
+      "name": "originalPrice",
+      "type": "string"
+    },
+    {
+      "name": "space",
+      "type": "string"
+    },
+    {
+      "name": "address",
+      "type": "string"
+    }
+  ]
+}
