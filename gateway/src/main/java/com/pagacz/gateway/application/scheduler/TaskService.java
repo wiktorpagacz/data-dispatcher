@@ -12,6 +12,7 @@ import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -33,7 +34,8 @@ public class TaskService {
         this.offerService = offerService;
     }
 
-    protected void addOffersToGoogleSheet() {
+    @Transactional
+    public void addOffersToGoogleSheet() {
         List<FlatOffer> offers = offerService.getNotWroteOffers();
         List<FlatOfferDto> offersDto = offerService.getDtosFromOffers(offers);
         try {
@@ -53,7 +55,8 @@ public class TaskService {
         }
     }
 
-    protected void sendEmailWithOffers() {
+    @Transactional
+    public void sendEmailWithOffers() {
         EmailService<FlatOfferDto> emailService = new EmailService<>();
         List<FlatOffer> offersToSend = offerService.getOffersToSend();
         List<FlatOfferDto> flatOfferDtos = offersToSend.stream()
