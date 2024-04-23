@@ -27,12 +27,8 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
     implementation 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     implementation 'com.google.api-client:google-api-client:2.2.0'
-    compileOnly 'org.projectlombok:lombok:1.18.28'
 
-    testCompileOnly 'org.projectlombok:lombok:1.18.28'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
     annotationProcessor "org.mapstruct:mapstruct-processor:1.5.5.Final"
-
     testImplementation 'org.mockito:mockito-core:2.7.2'
 
 }
